@@ -19,7 +19,7 @@ app.innerHTML = `
         </g>
         <animateTransform attributeName="transform" type="translate" values="-100 -76;-100 -76;-25 -19;-25 -19" keyTimes="0;.42;.62;1" dur="8s" repeatCount="indefinite" />
       </g>
-      <animateMotion path="M -120 462 L 1800 462" dur="8s" repeatCount="indefinite" />
+      <animateMotion path="M -120 570 L 1800 570" dur="8s" repeatCount="indefinite" />
       <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;.39;.44;.56;.61;1" dur="8s" repeatCount="indefinite" />
     </g>
   </svg>
