@@ -1,28 +1,98 @@
 import { analyseVideo } from './media/analyse';
 import { calculateAudioBitrate, calculateTotalBitrate, calculateVideoBitrate, formatBytes, formatDuration } from './media/bitrate';
 import { TARGET_BYTES, type ResolutionChoice, type VideoInfo } from './media/constants';
-import factoryScene from './assets/factory-scene.png';
 import './styles.css';
+import './factory-scene.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const icon = (path: string) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${path}"/></svg>`;
 
 app.innerHTML = `
-  <img class="factory-scene" src="${factoryScene}" alt="" aria-hidden="true" />
-  <svg class="factory-animation" viewBox="0 0 1680 945" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <g class="moving-token">
-      <g class="token-position">
-        <g class="token-scale">
-          <path d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z" fill="#b5aaff"/>
-          <ellipse cx="36" cy="39" rx="5" ry="7" fill="#30275f"/><ellipse cx="64" cy="39" rx="5" ry="7" fill="#30275f"/>
-          <animateTransform attributeName="transform" type="scale" values="2;2;.5;.5" keyTimes="0;.42;.62;1" dur="8s" repeatCount="indefinite" />
-        </g>
-        <animateTransform attributeName="transform" type="translate" values="-100 -76;-100 -76;-25 -19;-25 -19" keyTimes="0;.42;.62;1" dur="8s" repeatCount="indefinite" />
-      </g>
-      <animateMotion path="M -120 570 L 1800 570" dur="8s" repeatCount="indefinite" />
-      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;.39;.44;.56;.61;1" dur="8s" repeatCount="indefinite" />
-    </g>
-  </svg>
+<section class="hero" aria-label="Discord video compression scene">
+
+  <div class="factory-lines"></div>
+  <div class="floor"></div>
+
+  <div class="streaks left" aria-hidden="true">
+    <i class="streak"></i><i class="streak"></i><i class="streak"></i>
+  </div>
+  <div class="streaks right" aria-hidden="true">
+    <i class="streak"></i><i class="streak"></i><i class="streak"></i>
+  </div>
+
+  <div class="conveyor" aria-hidden="true">
+    <div class="belt"></div>
+    <div class="rollers">
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+      <span class="roller"></span><span class="roller"></span><span class="roller"></span>
+    </div>
+  </div>
+
+  <div class="discord-icon input-icon" aria-hidden="true">
+    <div class="ghost g1">
+      <svg viewBox="0 0 128 96" aria-hidden="true">
+        <path class="discord-fill" d="M20 12c10-5 21-8 33-10l5 10c4-1 8-1 12-1s8 0 12 1l5-10c12 2 23 5 33 10 10 15 12 30 12 43 0 16-5 28-15 39-8 4-17 6-26 7l-8-13c7-2 13-5 19-9-2-1-3-2-5-3-11 5-21 7-31 7s-20-2-31-7c-2 1-3 2-5 3 6 4 12 7 19 9l-8 13c-9-1-18-3-26-7C5 83 0 71 0 55 0 42 2 27 12 12c2 0 5-2 8-3z"/>
+        <circle class="discord-cut" cx="48" cy="48" r="8"/>
+        <circle class="discord-cut" cx="80" cy="48" r="8"/>
+        <path class="discord-cut" d="M40 63c7 6 14 8 24 8s17-2 24-8c-5 9-14 14-24 14S45 72 40 63z"/>
+      </svg>
+    </div>
+    <div class="ghost g2">
+      <svg viewBox="0 0 128 96" aria-hidden="true">
+        <path class="discord-fill" d="M20 12c10-5 21-8 33-10l5 10c4-1 8-1 12-1s8 0 12 1l5-10c12 2 23 5 33 10 10 15 12 30 12 43 0 16-5 28-15 39-8 4-17 6-26 7l-8-13c7-2 13-5 19-9-2-1-3-2-5-3-11 5-21 7-31 7s-20-2-31-7c-2 1-3 2-5 3 6 4 12 7 19 9l-8 13c-9-1-18-3-26-7C5 83 0 71 0 55 0 42 2 27 12 12c2 0 5-2 8-3z"/>
+        <circle class="discord-cut" cx="48" cy="48" r="8"/>
+        <circle class="discord-cut" cx="80" cy="48" r="8"/>
+        <path class="discord-cut" d="M40 63c7 6 14 8 24 8s17-2 24-8c-5 9-14 14-24 14S45 72 40 63z"/>
+      </svg>
+    </div>
+    <svg viewBox="0 0 128 96" aria-hidden="true">
+      <path class="discord-fill" d="M20 12c10-5 21-8 33-10l5 10c4-1 8-1 12-1s8 0 12 1l5-10c12 2 23 5 33 10 10 15 12 30 12 43 0 16-5 28-15 39-8 4-17 6-26 7l-8-13c7-2 13-5 19-9-2-1-3-2-5-3-11 5-21 7-31 7s-20-2-31-7c-2 1-3 2-5 3 6 4 12 7 19 9l-8 13c-9-1-18-3-26-7C5 83 0 71 0 55 0 42 2 27 12 12c2 0 5-2 8-3z"/>
+      <circle class="discord-cut" cx="48" cy="48" r="8"/>
+      <circle class="discord-cut" cx="80" cy="48" r="8"/>
+      <path class="discord-cut" d="M40 63c7 6 14 8 24 8s17-2 24-8c-5 9-14 14-24 14S45 72 40 63z"/>
+    </svg>
+  </div>
+
+  <div class="arrows left" aria-hidden="true">›››</div>
+
+  <div class="machine" aria-hidden="true">
+    <div class="press-column"></div>
+    <div class="machine-body">
+      <div class="hazard"></div>
+      <div class="window">
+        <div class="beam"></div>
+        <div class="sparks"></div>
+        <div class="discord-icon window-icon">
+          <svg viewBox="0 0 128 96" aria-hidden="true">
+            <path class="discord-fill" d="M20 12c10-5 21-8 33-10l5 10c4-1 8-1 12-1s8 0 12 1l5-10c12 2 23 5 33 10 10 15 12 30 12 43 0 16-5 28-15 39-8 4-17 6-26 7l-8-13c7-2 13-5 19-9-2-1-3-2-5-3-11 5-21 7-31 7s-20-2-31-7c-2 1-3 2-5 3 6 4 12 7 19 9l-8 13c-9-1-18-3-26-7C5 83 0 71 0 55 0 42 2 27 12 12c2 0 5-2 8-3z"/>
+            <circle class="discord-cut" cx="48" cy="48" r="8"/>
+            <circle class="discord-cut" cx="80" cy="48" r="8"/>
+            <path class="discord-cut" d="M40 63c7 6 14 8 24 8s17-2 24-8c-5 9-14 14-24 14S45 72 40 63z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="faceplate"></div>
+    </div>
+    <div class="press-head"></div>
+  </div>
+
+  <div class="arrows right" aria-hidden="true">›››</div>
+
+  <div class="discord-icon output-icon" aria-hidden="true">
+    <svg viewBox="0 0 128 96" aria-hidden="true">
+      <path class="discord-fill" d="M20 12c10-5 21-8 33-10l5 10c4-1 8-1 12-1s8 0 12 1l5-10c12 2 23 5 33 10 10 15 12 30 12 43 0 16-5 28-15 39-8 4-17 6-26 7l-8-13c7-2 13-5 19-9-2-1-3-2-5-3-11 5-21 7-31 7s-20-2-31-7c-2 1-3 2-5 3 6 4 12 7 19 9l-8 13c-9-1-18-3-26-7C5 83 0 71 0 55 0 42 2 27 12 12c2 0 5-2 8-3z"/>
+      <circle class="discord-cut" cx="48" cy="48" r="8"/>
+      <circle class="discord-cut" cx="80" cy="48" r="8"/>
+      <path class="discord-cut" d="M40 63c7 6 14 8 24 8s17-2 24-8c-5 9-14 14-24 14S45 72 40 63z"/>
+    </svg>
+  </div>
+
+  <span class="twinkle" aria-hidden="true"></span>
+  <span class="twinkle t2" aria-hidden="true"></span>
   <main class="layout">
     <section class="work-card" aria-label="Video compressor">
       <div id="welcome" class="welcome">
@@ -48,7 +118,8 @@ app.innerHTML = `
         <div id="error-panel" class="error-panel" hidden role="alert"><span aria-hidden="true">!</span><p id="error-message" class="sr-only"></p><button id="retry-button" class="icon-action mini-action" type="button" aria-label="Try again" title="Try again">${icon('M20 11a8 8 0 0 0-14.9-4M4 4v4h4M4 13a8 8 0 0 0 14.9 4M20 20v-4h-4')}</button></div>
       </div>
     </section>
-  </main>`;
+  </main>
+</section>`;
 
 const $ = <T extends HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const input = $('#file-input') as HTMLInputElement;

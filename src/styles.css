@@ -27,50 +27,6 @@ button, select { font: inherit; }
 button { cursor: pointer; }
 [hidden] { display: none !important; }
 
-.factory-scene, .factory-animation {
-  position: fixed;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.factory-scene {
-  object-fit: cover;
-  object-position: center;
-}
-.factory-animation {
-  z-index: 1;
-}
-.topbar {
-  position: relative;
-  z-index: 2;
-  height: 76px;
-  padding: 0 clamp(22px, 5vw, 76px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid rgb(178 172 255 / 34%);
-  border-radius: 13px;
-  background: linear-gradient(145deg, rgb(135 127 255 / 28%), rgb(92 91 185 / 13%));
-  color: #c5bdff;
-  box-shadow: 0 0 26px rgb(123 119 255 / 16%), inset 0 1px rgb(255 255 255 / 18%);
-}
-.brand-mark svg { width: 22px; fill: currentColor; }
-.brand-mark .discord-eye { fill: #302b5c; }
-.privacy-light {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #80edcf;
-  box-shadow: 0 0 12px #80edcf, 0 0 0 5px rgb(128 237 207 / 8%);
-}
 .layout {
   position: relative;
   z-index: 2;
@@ -185,7 +141,6 @@ button { cursor: pointer; }
 .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; clip-path: inset(50%) !important; border: 0 !important; }
 
 @media (max-width: 620px) {
-  .topbar { display: none; }
   .layout { min-height: 100svh; padding: 0 14px 34px; }
   .dropzone { width: 84px; height: 84px; }
   .upload-action { width: 56px; height: 56px; }
@@ -212,5 +167,4 @@ button { cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-  .moving-token { display: none; }
 }

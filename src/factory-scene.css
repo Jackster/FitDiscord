@@ -1,0 +1,310 @@
+:root{
+  --blue:#5865F2;
+  --cyan:#49d8ff;
+  --white:#eef4ff;
+}
+
+.hero{
+    position:relative;
+    width:100%;
+    min-height:100svh;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(88,101,242,.22), transparent 28%),
+      linear-gradient(180deg,#0b1334 0%,#071126 58%,#060b17 100%);
+    isolation:isolate;
+  }
+
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(90deg,
+        rgba(20,33,77,.85) 0 7%,
+        transparent 7% 12%,
+        rgba(16,28,66,.7) 12% 16%,
+        transparent 16% 84%,
+        rgba(16,28,66,.7) 84% 88%,
+        transparent 88% 93%,
+        rgba(20,33,77,.85) 93% 100%),
+      repeating-linear-gradient(90deg,
+        transparent 0 96px,
+        rgba(70,92,170,.12) 96px 99px);
+    opacity:.55;
+    z-index:-5;
+  }
+
+  .factory-lines,
+  .factory-lines::before,
+  .factory-lines::after{
+    position:absolute;
+    content:"";
+    height:7px;
+    width:150px;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent);
+    filter:drop-shadow(0 0 12px rgba(70,120,255,.95));
+    opacity:.75;
+  }
+  .factory-lines{left:9%;top:13%;transform:rotate(24deg)}
+  .factory-lines::before{left:960px;top:80px;transform:rotate(-28deg)}
+  .factory-lines::after{left:510px;top:150px;transform:rotate(-18deg)}
+
+  .floor{
+    position:absolute; inset:auto 0 0; height:210px;
+    background:
+      linear-gradient(180deg,rgba(7,12,32,.05),rgba(8,12,25,.85)),
+      repeating-linear-gradient(90deg,rgba(79,103,255,.11) 0 2px,transparent 2px 170px),
+      repeating-linear-gradient(0deg,rgba(79,103,255,.07) 0 2px,transparent 2px 65px);
+    box-shadow:inset 0 18px 70px rgba(52,71,255,.10);
+    transform:perspective(500px) rotateX(60deg);
+    transform-origin:bottom;
+    opacity:.7;
+    z-index:-3;
+  }
+
+  .conveyor{
+    position:absolute; left:-2%; right:-2%; top:67%; height:95px;
+    transform:translateY(-50%); z-index:4;
+  }
+
+  .belt{
+    position:absolute; left:0; right:0; top:26px; height:28px;
+    background:linear-gradient(180deg,#202b5c 0%,#0b1022 48%,#161d3e 100%);
+    border:2px solid #334487;
+    box-shadow:0 0 16px rgba(55,85,255,.40), inset 0 5px 10px rgba(255,255,255,.06);
+  }
+  .belt::before{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 18px, rgba(0,0,0,.08) 18px 42px);
+    animation:beltMove 1.05s linear infinite;
+  }
+
+  .rollers{
+    position:absolute; left:0; right:0; top:42px; height:44px;
+    display:flex; align-items:center; justify-content:space-around; pointer-events:none;
+  }
+  .roller{
+    width:34px; height:34px; border-radius:50%;
+    background:radial-gradient(circle,#071021 0 34%,#4ccfff 36% 43%,#1b2c66 46% 65%,#0b0e1c 67%);
+    box-shadow:0 0 13px rgba(75,211,255,.85);
+    animation:spin .8s linear infinite;
+  }
+
+  .machine{
+    position:absolute; left:50%; top:57%; width:440px; height:330px;
+    transform:translate(-50%,-50%); z-index:8;
+  }
+
+  .machine-body{
+    position:absolute; left:50%; bottom:0; width:390px; height:250px;
+    transform:translateX(-50%);
+    border-radius:34px 34px 18px 18px;
+    background:linear-gradient(180deg,#25346e 0 12%,#131b3f 14% 100%);
+    border:3px solid #3b4c91;
+    box-shadow:0 0 38px rgba(70,96,255,.35), inset 0 0 0 4px rgba(255,255,255,.025);
+  }
+  .machine-body::before, .machine-body::after{
+    content:""; position:absolute; top:66px; width:22px; height:118px; border-radius:12px;
+    background:linear-gradient(180deg,var(--cyan),var(--blue));
+    box-shadow:0 0 18px rgba(73,216,255,.95);
+  }
+  .machine-body::before{left:16px}
+  .machine-body::after{right:16px}
+
+  .window{
+    position:absolute; left:50%; top:56px; width:240px; height:92px; transform:translateX(-50%);
+    border-radius:10px;
+    background:radial-gradient(circle at 50% 100%,rgba(73,216,255,.95),rgba(73,216,255,.14) 38%,rgba(7,12,30,.92) 75%);
+    border:3px solid #263e86;
+    box-shadow:inset 0 0 30px rgba(31,105,255,.65), 0 0 28px rgba(49,109,255,.40);
+    overflow:hidden;
+  }
+
+  .beam{
+    position:absolute; left:50%; top:-25px; width:42px; height:150px; transform:translateX(-50%);
+    background:linear-gradient(90deg,transparent,rgba(102,230,255,.95),white,rgba(94,214,255,.8),transparent);
+    opacity:.82; animation:beamPulse 1.2s ease-in-out infinite alternate;
+  }
+
+  .sparks{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 18% 68%,#65dcff 0 2px,transparent 3px),
+      radial-gradient(circle at 31% 33%,#6d7cff 0 2px,transparent 3px),
+      radial-gradient(circle at 54% 74%,#fff 0 2px,transparent 3px),
+      radial-gradient(circle at 73% 42%,#66dbff 0 2px,transparent 3px),
+      radial-gradient(circle at 85% 76%,#7563ff 0 2px,transparent 3px);
+    animation:sparkle .9s steps(2,end) infinite;
+    opacity:.85;
+  }
+
+  .faceplate{
+    position:absolute; left:50%; bottom:44px; width:242px; height:70px; transform:translateX(-50%);
+    border-radius:12px; background:linear-gradient(180deg,#182349,#0b1024);
+    border:2px solid #2e3d7a; box-shadow:inset 0 0 14px rgba(0,0,0,.55);
+  }
+
+  .hazard{
+    position:absolute; left:50%; top:22px; width:220px; height:24px; transform:translateX(-50%);
+    background:repeating-linear-gradient(120deg,#ffc144 0 18px,#18213f 18px 34px);
+    border-radius:4px; border:2px solid #332c29; box-shadow:0 0 12px rgba(255,177,74,.25);
+  }
+
+  .press-column{
+    position:absolute; left:50%; top:-100px; width:128px; height:190px; transform:translateX(-50%);
+    border-radius:0 0 26px 26px;
+    background:linear-gradient(90deg,#151c40,#334587 26%,#17204b 50%,#5d6cb1 75%,#141c3c);
+    border:3px solid #3c4c8c; box-shadow:0 0 20px rgba(76,102,255,.35);
+  }
+
+  .press-head{
+    position:absolute; left:50%; top:-10px; width:260px; height:66px; transform:translateX(-50%);
+    border-radius:18px; background:linear-gradient(180deg,#4a5ba2,#222d62);
+    border:3px solid #5b6db5; box-shadow:0 12px 24px rgba(0,0,0,.28);
+    animation:press 6s cubic-bezier(.76,.02,.22,.99) infinite;
+    z-index:5;
+  }
+  .press-head::after{
+    content:""; position:absolute; left:20px; right:20px; bottom:-12px; height:17px;
+    border-radius:4px; background:repeating-linear-gradient(120deg,#ffbd42 0 16px,#1c2348 16px 30px);
+  }
+
+  /* Discord icon */
+  .discord-icon{
+    position:absolute;
+    width:132px; height:100px; z-index:6;
+    filter:drop-shadow(0 0 20px rgba(88,101,242,.75)) drop-shadow(0 0 10px rgba(73,216,255,.35));
+  }
+  .discord-icon svg{display:block; width:100%; height:100%}
+  .discord-fill{fill:var(--blue)}
+  .discord-cut{fill:var(--white)}
+
+  .ghost{
+    position:absolute; inset:0; opacity:.13; pointer-events:none;
+    transform:translateX(-52px) scale(.96);
+  }
+  .ghost.g2{opacity:.08; transform:translateX(-96px) scale(.92)}
+
+  .input-icon{
+    top:calc(67% - 88px); left:-170px; animation:inputTravel 6s linear infinite;
+  }
+  .window-icon{
+    left:50%; top:50%; width:86px; height:65px; transform:translate(-50%,-48%);
+    z-index:2; opacity:0; animation:windowIcon 6s linear infinite;
+  }
+  .output-icon{
+    top:calc(67% - 60px); left:50%; width:70px; height:53px; opacity:0;
+    animation:outputTravel 6s linear infinite;
+  }
+
+  .arrows{
+    position:absolute; top:calc(67% - 28px); z-index:10; color:var(--cyan);
+    font-weight:900; font-size:42px; letter-spacing:-9px;
+    text-shadow:0 0 16px rgba(73,216,255,.85); animation:arrowPulse .8s ease-in-out infinite alternate;
+    user-select:none;
+  }
+  .arrows.left{left:29%}
+  .arrows.right{right:28%}
+
+  .twinkle{
+    position:absolute; right:25%; top:49%; width:14px; height:14px;
+    background:var(--cyan);
+    clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);
+    filter:drop-shadow(0 0 10px var(--cyan)); animation:twinkle 1.3s ease-in-out infinite; z-index:9;
+  }
+  .twinkle.t2{
+    right:19%; top:54%; background:#ffd07b; filter:drop-shadow(0 0 10px #ffd07b); animation-delay:.45s;
+  }
+
+  .streaks{position:absolute; top:58%; width:330px; height:95px; opacity:.9; overflow:hidden; z-index:3}
+  .streaks.left{left:2%}
+  .streaks.right{right:1%}
+  .streak{
+    position:absolute; height:3px; border-radius:10px;
+    background:linear-gradient(90deg,transparent,var(--cyan),var(--blue),transparent);
+    filter:drop-shadow(0 0 7px var(--blue));
+    animation:streakMove 1.2s linear infinite;
+  }
+  .streak:nth-child(1){top:15px; width:260px; animation-delay:-.2s}
+  .streak:nth-child(2){top:42px; width:190px; animation-delay:-.7s}
+  .streak:nth-child(3){top:68px; width:290px; animation-delay:-.45s; background:linear-gradient(90deg,transparent,#ffbf6f,var(--blue),transparent)}
+  .streaks.right .streak{animation-name:streakMoveRight}
+
+  @keyframes beltMove{to{background-position:42px 0}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes beamPulse{from{opacity:.48} to{opacity:1}}
+  @keyframes sparkle{50%{opacity:.4; transform:translateY(-2px)}}
+  @keyframes arrowPulse{from{opacity:.45; transform:translateX(-4px)} to{opacity:1; transform:translateX(5px)}}
+  @keyframes twinkle{0%,100%{transform:scale(.55) rotate(0);opacity:.3} 50%{transform:scale(1.35) rotate(45deg);opacity:1}}
+  @keyframes streakMove{from{transform:translateX(-110px);opacity:0} 25%{opacity:1} to{transform:translateX(180px);opacity:0}}
+  @keyframes streakMoveRight{from{transform:translateX(-40px);opacity:0} 25%{opacity:1} to{transform:translateX(160px);opacity:0}}
+
+  @keyframes inputTravel{
+    0%   {left:-170px; transform:scale(1); opacity:0}
+    5%   {opacity:1}
+    35%  {left:calc(50% - 225px); transform:scale(1); opacity:1}
+    41%  {left:calc(50% - 145px); transform:scale(.95); opacity:1}
+    43%  {left:calc(50% - 115px); transform:scale(.86); opacity:0}
+    100% {left:calc(50% - 115px); transform:scale(.86); opacity:0}
+  }
+
+  @keyframes windowIcon{
+    0%,41% {opacity:0; transform:translate(-50%,-48%) scale(.82)}
+    43%    {opacity:1; transform:translate(-50%,-48%) scale(.82)}
+    46%    {opacity:1; transform:translate(-50%,-48%) scale(.78)}
+    48%    {opacity:0; transform:translate(-50%,-30%) scale(.58)}
+    56%    {opacity:0; transform:translate(-50%,-30%) scale(.42)}
+    100%   {opacity:0; transform:translate(-50%,-30%) scale(.42)}
+  }
+
+  @keyframes outputTravel{
+    0%,56% {left:calc(50% + 20px); transform:scale(.48); opacity:0}
+    60%    {left:calc(50% + 72px); transform:scale(.58); opacity:1}
+    72%    {left:67%; transform:scale(.78); opacity:1}
+    95%    {left:104%; transform:scale(.78); opacity:1}
+    100%   {left:111%; transform:scale(.78); opacity:0}
+  }
+
+  @keyframes press{
+    0%,38%  {transform:translateX(-50%) translateY(0)}
+    46%     {transform:translateX(-50%) translateY(58px)}
+    51%     {transform:translateX(-50%) translateY(58px)}
+    59%     {transform:translateX(-50%) translateY(0)}
+    100%    {transform:translateX(-50%) translateY(0)}
+  }
+
+  @media (max-width:900px){
+    .hero{min-height:max(520px,100svh)}
+    .machine{transform:translate(-50%,-50%) scale(.78)}
+    .discord-icon{width:108px; height:82px}
+    .input-icon{top:calc(67% - 71px)}
+    .output-icon{width:58px; height:44px; top:calc(67% - 50px)}
+    .window-icon{width:70px; height:53px}
+    .arrows.left{left:18%}
+    .arrows.right{right:17%}
+  }
+
+  @media (max-width:620px){
+    .hero{min-height:max(430px,100svh)}
+    .machine{top:58%; transform:translate(-50%,-50%) scale(.58)}
+    .conveyor{top:69%; height:76px}
+    .belt{top:22px}
+    .rollers{top:38px; height:35px}
+    .roller{width:26px; height:26px}
+    .discord-icon{width:84px; height:64px}
+    .input-icon{top:calc(69% - 54px)}
+    .output-icon{width:48px; height:36px; top:calc(69% - 36px)}
+    .window-icon{width:56px; height:42px}
+    .arrows{font-size:28px; top:calc(69% - 25px)}
+    .arrows.left{left:13%}
+    .arrows.right{right:12%}
+    .streaks{display:none}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important}
+    .input-icon{left:18%; opacity:1}
+    .window-icon{opacity:0}
+    .output-icon{left:76%; opacity:1}
+  }
