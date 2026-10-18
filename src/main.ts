@@ -1,64 +1,28 @@
 import { analyseVideo } from './media/analyse';
 import { calculateAudioBitrate, calculateTotalBitrate, calculateVideoBitrate, formatBytes, formatDuration } from './media/bitrate';
 import { TARGET_BYTES, type ResolutionChoice, type VideoInfo } from './media/constants';
+import factoryScene from './assets/factory-scene.png';
 import './styles.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
-const discordMark = `<svg viewBox="0 0 100 76" aria-hidden="true"><path d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z"/><ellipse cx="36" cy="39" rx="5" ry="7" class="discord-eye"/><ellipse cx="64" cy="39" rx="5" ry="7" class="discord-eye"/></svg>`;
 const icon = (path: string) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${path}"/></svg>`;
 
 app.innerHTML = `
-  <svg class="factory-scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="machine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22263c"/><stop offset=".55" stop-color="#151a2b"/><stop offset="1" stop-color="#101522"/></linearGradient>
-      <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#181e31"/><stop offset="1" stop-color="#090d18"/></linearGradient>
-      <linearGradient id="belt" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#30364d"/><stop offset=".16" stop-color="#191e2e"/><stop offset="1" stop-color="#111624"/></linearGradient>
-      <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#6e71ff" stop-opacity="0"/><stop offset=".35" stop-color="#8b7cff"/><stop offset=".7" stop-color="#58d9ff"/><stop offset="1" stop-color="#58d9ff" stop-opacity="0"/></linearGradient>
-      <radialGradient id="halo"><stop stop-color="#626cff" stop-opacity=".24"/><stop offset="1" stop-color="#626cff" stop-opacity="0"/></radialGradient>
-      <pattern id="rollers" width="62" height="58" patternUnits="userSpaceOnUse"><path d="M31 4v49" stroke="#77809e" stroke-opacity=".24" stroke-width="2"/><circle cx="31" cy="29" r="10" fill="#20263a" stroke="#8790ad" stroke-opacity=".38" stroke-width="2"/><circle cx="31" cy="29" r="3" fill="#aab4d5" fill-opacity=".5"/></pattern>
-      <filter id="soft-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="14"/></filter>
-      <filter id="mark-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7"/></filter>
-    </defs>
-    <ellipse cx="720" cy="510" rx="620" ry="370" fill="url(#halo)"/>
-    <path d="M0 770h1440M0 812h1440M0 852h1440" stroke="#8992bb" stroke-opacity=".05"/>
-    <path d="M0 770 390 635h660l390 135M0 850 430 680h580l430 170" fill="none" stroke="#8992bb" stroke-opacity=".035"/>
-    <ellipse cx="720" cy="690" rx="625" ry="68" fill="#080b13" opacity=".66" filter="url(#soft-glow)"/>
-    <g class="machine-body">
-      <path d="M500 363q0-28 28-28h384q28 0 28 28v305H500Z" fill="url(#machine)" stroke="#56607c" stroke-opacity=".45" stroke-width="2"/>
-      <path d="M514 372q0-22 22-22h368q22 0 22 22v13H514Z" fill="#333951" opacity=".8"/>
-      <path d="M530 404h380v145H530z" fill="url(#glass)" stroke="#727da0" stroke-opacity=".3"/>
-      <path d="M544 416h352v116H544z" fill="#11182a" stroke="#9c9dff" stroke-opacity=".22"/>
-      <path d="M560 429h320v3H560z" fill="url(#beam)" opacity=".85"/>
-      <path d="M566 506h300" stroke="#6872a0" stroke-opacity=".25"/>
-      <circle cx="552" cy="370" r="3" fill="#8e97b8"/><circle cx="888" cy="370" r="3" fill="#8e97b8"/>
-      <path d="M500 353h440" stroke="#a9a9ff" stroke-opacity=".5" stroke-width="2"/>
-      <path d="M519 675v45m390-45v45" stroke="#69728f" stroke-opacity=".38" stroke-width="12"/>
-      <path d="M506 720h42m346 0h42" stroke="#69728f" stroke-opacity=".38" stroke-width="8"/>
-      <path d="M501 664h438" stroke="#747eff" stroke-opacity=".62" stroke-width="2"/>
-      <path d="M623 351v10m194-10v10" stroke="#97a0c0" stroke-opacity=".55" stroke-width="3"/>
-      <circle cx="720" cy="472" r="49" fill="none" stroke="#8b83ff" stroke-opacity=".15" stroke-width="1"/>
-      <circle cx="720" cy="472" r="37" fill="none" stroke="#67dfff" stroke-opacity=".14" stroke-width="1"/>
-    </g>
-    <g class="conveyor">
-      <path d="M0 641h1440v73H0z" fill="url(#belt)" stroke="#7782a3" stroke-opacity=".46" stroke-width="2"/>
-      <path d="M0 650h1440v55H0z" fill="url(#rollers)"/>
-      <path d="M0 642h1440M0 713h1440" stroke="#98a2c3" stroke-opacity=".52" stroke-width="3"/>
-      <path d="M40 637h182M1218 637h182" stroke="#747eff" stroke-opacity=".65" stroke-width="3"/>
-      <path d="M68 730v21m130-21v21m1044-21v21m130-21v21" stroke="#505a77" stroke-width="10" stroke-linecap="round"/>
-      <path d="M68 754h130m1044 0h130" stroke="#505a77" stroke-width="7" stroke-linecap="round"/>
-    </g>
-    <path class="static-mark" d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z" transform="translate(248 593) scale(.78)" fill="#a9a0ff"/>
-    <path class="static-mark" d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z" transform="translate(1100 619) scale(.3)" fill="#8be9ff"/>
-    <g class="moving-token" transform="translate(0 641)">
-      <g class="token-mark" transform="translate(-42 -34) scale(.84)">
-        <path d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z" fill="#a89cff" class="token-fill"/>
-        <ellipse cx="36" cy="39" rx="5" ry="7" fill="#28234b"/><ellipse cx="64" cy="39" rx="5" ry="7" fill="#28234b"/>
-        <animateTransform attributeName="transform" type="scale" values="1;1;.34;.34" keyTimes="0;.37;.63;1" dur="7.2s" repeatCount="indefinite" begin="0s; -2.4s; -4.8s"/>
+  <img class="factory-scene" src="${factoryScene}" alt="" aria-hidden="true" />
+  <svg class="factory-animation" viewBox="0 0 1680 945" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g class="moving-token">
+      <g class="token-position">
+        <g class="token-scale">
+          <path d="M83 12A79 79 0 0 0 64 6l-3 6a71 71 0 0 0-22 0l-3-6a79 79 0 0 0-19 6C5 29 1 46 3 62a78 78 0 0 0 24 12l6-10-8-4 2-2c15 7 31 7 46 0l2 2-8 4 6 10a78 78 0 0 0 24-12c2-19-3-36-14-50Z" fill="#b5aaff"/>
+          <ellipse cx="36" cy="39" rx="5" ry="7" fill="#30275f"/><ellipse cx="64" cy="39" rx="5" ry="7" fill="#30275f"/>
+          <animateTransform attributeName="transform" type="scale" values="2;2;.5;.5" keyTimes="0;.42;.62;1" dur="8s" repeatCount="indefinite" />
+        </g>
+        <animateTransform attributeName="transform" type="translate" values="-100 -76;-100 -76;-25 -19;-25 -19" keyTimes="0;.42;.62;1" dur="8s" repeatCount="indefinite" />
       </g>
-      <animateMotion path="M -145 0 L 1585 0" dur="7.2s" repeatCount="indefinite" begin="0s; -2.4s; -4.8s"/>
+      <animateMotion path="M -120 462 L 1800 462" dur="8s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;.39;.44;.56;.61;1" dur="8s" repeatCount="indefinite" />
     </g>
   </svg>
-  <header class="topbar"><div class="brand-mark" role="img" aria-label="Discord">${discordMark}</div><span class="privacy-light" title="Local processing"></span></header>
   <main class="layout">
     <section class="work-card" aria-label="Video compressor">
       <div id="welcome" class="welcome">

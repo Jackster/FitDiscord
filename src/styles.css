@@ -27,18 +27,21 @@ button, select { font: inherit; }
 button { cursor: pointer; }
 [hidden] { display: none !important; }
 
-.factory-scene {
+.factory-scene, .factory-animation {
   position: fixed;
   z-index: 0;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: .94;
 }
-.machine-body { filter: drop-shadow(0 24px 44px rgb(0 0 0 / 45%)); }
-.moving-token { filter: drop-shadow(0 0 11px rgb(156 143 255 / 72%)); }
-.static-mark { display: none; }
+.factory-scene {
+  object-fit: cover;
+  object-position: center;
+}
+.factory-animation {
+  z-index: 1;
+}
 .topbar {
   position: relative;
   z-index: 2;
@@ -70,8 +73,8 @@ button { cursor: pointer; }
 }
 .layout {
   position: relative;
-  z-index: 1;
-  min-height: calc(100svh - 76px);
+  z-index: 2;
+  min-height: 100svh;
   padding: 0 20px clamp(34px, 7vh, 78px);
   display: grid;
   place-items: end center;
@@ -182,8 +185,8 @@ button { cursor: pointer; }
 .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; clip-path: inset(50%) !important; border: 0 !important; }
 
 @media (max-width: 620px) {
-  .topbar { height: 62px; padding: 0 18px; }
-  .layout { min-height: calc(100svh - 62px); padding: 0 14px 34px; }
+  .topbar { display: none; }
+  .layout { min-height: 100svh; padding: 0 14px 34px; }
   .dropzone { width: 84px; height: 84px; }
   .upload-action { width: 56px; height: 56px; }
   .work-card { width: min(100%, 420px); }
@@ -197,7 +200,6 @@ button { cursor: pointer; }
   .switch { width: 33px; height: 19px; }
   .audio-choice input:checked + .switch::after { transform: translateX(13px); }
   .compress-action { width: 41px; height: 41px; }
-  .factory-scene { opacity: .78; }
 }
 
 @media (max-width: 370px) {
@@ -211,5 +213,4 @@ button { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   .moving-token { display: none; }
-  .static-mark { display: block; opacity: .8; }
 }
